@@ -23,19 +23,27 @@ namespace JwtTokenWebUI.Controllers
         }
 
         [HttpPost]
-        public async  Task< IActionResult> SignIn(AppUserLogin  appUserLogin)
+        public async Task<IActionResult> SignIn(AppUserLogin appUserLogin)
         {
 
             if (ModelState.IsValid)
             {
                 if (await _authSrvice.Login(appUserLogin))
                 {
-
+                    return RedirectToAction("Index", "Home");
                 }
 
-                ModelState.AddModelError("","Kullanıcı adı veya şifre hatlı");
+                ModelState.AddModelError("", "Kullanıcı adı veya şifre hatlı");
+
+
+
+
             }
+      
             return View(appUserLogin);
+        
         }
-    }
+        
+      
+        }
 }

@@ -32,13 +32,19 @@ namespace JwtTokenWebUI.ApiServices.Concrate
             {
                 var token = JsonConvert.DeserializeObject<AccessToken>(await responsMessage.Content.ReadAsStringAsync());
                 _httpContextAccessor.HttpContext.Session.SetString("Token", token.Token);
+
+                return true;
             }
-            return true;
+            else
+            {
+               return false;
+            }
+          
         }
 
         public void LogOut()
         {
-       
+            _httpContextAccessor.HttpContext.Session.Remove("Token");
         }
     }
 }

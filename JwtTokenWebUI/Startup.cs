@@ -26,6 +26,7 @@ namespace JwtTokenWebUI
         {
 
             services.AddScoped<IAuthSrvice, AuthMangaer>();
+            services.AddScoped<IProductApiService, ProductApiManager>();
             services.AddHttpContextAccessor();
             services.AddSession();
             services.AddControllersWithViews();

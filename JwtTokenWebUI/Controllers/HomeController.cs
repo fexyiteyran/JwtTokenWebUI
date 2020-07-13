@@ -6,24 +6,34 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using JwtTokenWebUI.Models;
+using JwtTokenWebUI.ApiServices.Interfaces;
 
 namespace JwtTokenWebUI.Controllers
 {
     public class HomeController : Controller
-    {
+    {  
+        
+        
         private readonly ILogger<HomeController> _logger;
+        IProductApiService _productApiService;
 
-        public HomeController(ILogger<HomeController> logger)
+   
+        
+      
+
+        public HomeController(ILogger<HomeController> logger, IProductApiService productApiService)
         {
             _logger = logger;
+            _productApiService = productApiService;
         }
 
-        public IActionResult Index()
+        public async Task< IActionResult> Index()
         {
-            return View();
+          var model=  await _productApiService.GetAllAsync();
+            return View(model);
         }
 
-        public IActionResult Privacy()
+        public  IActionResult Privacy()
         {
             return View();
         }
