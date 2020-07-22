@@ -21,6 +21,31 @@ namespace JwtTokenWebUI.ApiServices.Concrate
             _accessor = accessor;
         }
 
+        public async Task AddAsync(ProductAdd productAdd)
+        {
+            var token = _accessor.HttpContext.Session.GetString("Token");
+
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                using var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var jsonData = JsonConvert.SerializeObject(productAdd);
+                var stringContent = new StringContent(jsonData, Encoding.UTF8,"application/json");
+
+             var responceMessage=   await httpClient.PostAsync("http://localhost:50853/api/products", stringContent);
+
+                if (responceMessage.IsSuccessStatusCode)
+                {
+
+                }
+
+            }
+
+
+            //throw new NotImplementedException();
+        }
+
         public  async Task<List<ProductList>> GetAllAsync()
         {
 

@@ -33,6 +33,27 @@ namespace JwtTokenWebUI.Controllers
             return View(model);
         }
 
+
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task< IActionResult> Create(ProductAdd productAdd)
+        {
+
+            if (ModelState.IsValid)
+            {
+                await _productApiService.AddAsync(productAdd);
+
+                RedirectToAction("Index","Home");
+            }
+
+
+            return View(productAdd);
+        }
         public  IActionResult Privacy()
         {
             return View();
@@ -43,5 +64,7 @@ namespace JwtTokenWebUI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }

@@ -10,5 +10,6 @@ namespace JwtTokenWebUI.ApiServices.Interfaces
     {
 
         Task<List<ProductList>> GetAllAsync();
+        Task AddAsync(ProductAdd productAdd);
     }
 }
