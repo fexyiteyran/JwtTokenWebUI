@@ -54,7 +54,7 @@ namespace JwtTokenWebUI
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Acount}/{action=SignIn}/{id?}");
             });
         }
     }

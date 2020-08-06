@@ -46,7 +46,20 @@ namespace JwtTokenWebUI.ApiServices.Concrate
             //throw new NotImplementedException();
         }
 
-        public  async Task<List<ProductList>> GetAllAsync()
+        public async Task DeleteAsync(int id)
+        {
+            var token = _accessor.HttpContext.Session.GetString("Token");
+
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                using var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                 var responceMessage = await httpClient.DeleteAsync($"http://localhost:50853/api/products/{id}");
+
+
+            }
+        }
+            public  async Task<List<ProductList>> GetAllAsync()
         {
 
           
@@ -69,6 +82,54 @@ namespace JwtTokenWebUI.ApiServices.Concrate
             //{
             //    return null;
             //}
+        }
+
+        public async Task<ProductList> GetByIdAsync(int id)
+        {
+            var token = _accessor.HttpContext.Session.GetString("Token");
+
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+
+
+                using var httpClient = new HttpClient();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var responceMessage = await httpClient.GetAsync($"http://localhost:50853/api/products/{id}");
+                if (responceMessage.IsSuccessStatusCode)
+                {
+                    
+                    var pruduct= JsonConvert.DeserializeObject<ProductList>(await responceMessage.Content.ReadAsStringAsync());
+                    return pruduct;
+                }
+            }
+
+
+            return null;
+        
+        }
+
+        public async Task UpdateAsync(ProductList productList)
+        {
+            var token = _accessor.HttpContext.Session.GetString("Token");
+
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+
+
+                using var httpClient = new HttpClient();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var jsonData = JsonConvert.SerializeObject(productList);
+                var stringContent = new StringContent(jsonData,Encoding.UTF8,"application/json");
+                var responceMessage = await httpClient.PutAsync($"http://localhost:50853/api/products",stringContent);
+                //if (responceMessage.IsSuccessStatusCode)
+                //{
+
+                //    var pruduct = JsonConvert.DeserializeObject<ProductList>(await responceMessage.Content.ReadAsStringAsync());
+                //    return pruduct;
+                //}
+            }
         }
     }
 }

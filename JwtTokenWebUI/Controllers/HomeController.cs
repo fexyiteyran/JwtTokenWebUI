@@ -54,7 +54,45 @@ namespace JwtTokenWebUI.Controllers
 
             return View(productAdd);
         }
-        public  IActionResult Privacy()
+
+        public async Task<IActionResult> Delete(int id)
+        {
+
+             await _productApiService.DeleteAsync(id);
+
+        return    RedirectToAction("Index","Home");
+         
+        }
+        public async Task<IActionResult> Edit(int id)
+        {
+
+            var product = await _productApiService.GetByIdAsync(id);
+
+
+            return View(product);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ProductList productList)
+        {
+
+ /*           var product = */
+            if (ModelState.IsValid)
+            {
+                await _productApiService.UpdateAsync(productList);
+                return RedirectToAction("Index","Home");
+            }
+
+            return View(productList);
+        }
+
+
+
+
+
+
+        public IActionResult Privacy()
         {
             return View();
         }
